@@ -4,7 +4,7 @@ import { FaRegQuestionCircle } from "react-icons/fa";
 const NavBar = () => {
     return (
         <div
-            className="bg-white flex justify-between items-center px-4 sm:px-14 border-opacity-10
+            className="bg-white top-0 z-50 sticky  flex justify-between items-center px-4 sm:px-14 border-opacity-10
          border-black border-b boder-black"
         >
             <div className="bg-white flex  justify-center mb-2 sm:mb-0">

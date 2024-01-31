@@ -17,7 +17,7 @@ const InputField = ({ name, label, type, showPassword, toggleVisibility }) => {
                 className="h-10 rounded-full pr-10"
                 margin="normal"
                 type={type === "password" && showPassword ? "text" : type}
-                helperText={<ErrorMessage name={name} render={(msg) => <span style={{ color: "red" }}>{msg}</span>} />}
+                helperText={<ErrorMessage name={name} className="text-left" render={(msg) => <span style={{ color: "red" }}>{msg}</span>} />}
             />
             {type === "password" ? (
                 <button type="button" onClick={toggleVisibility} className="absolute top-9 right-3 cursor-pointer">

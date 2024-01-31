@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-console.log("Rached to validation file")
+
 export const personalInfovalidationSchema = Yup.object().shape({
     titles: Yup.string().required('title is required'),
     name: Yup.string()

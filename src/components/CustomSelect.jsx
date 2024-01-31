@@ -7,9 +7,8 @@ import Select from '@mui/material/Select';
 import { Field, ErrorMessage } from 'formik';
 
 const CustomSelect = ({ label, value, onChange, options, name }) => {
-    console.log(value,"value")
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box sx={{ width: '100%' }}>
       <FormControl fullWidth>
         <InputLabel id="custom-select-label">{label}</InputLabel>
         <Field name={name}>
@@ -29,7 +28,7 @@ const CustomSelect = ({ label, value, onChange, options, name }) => {
                   </MenuItem>
                 ))}
               </Select>
-              <ErrorMessage name={name} component="div" style={{ color: 'red' }} />
+              <ErrorMessage className='text-sm' name={name} component="div" style={{ color: 'red' }} />
             </>
           )}
         </Field>
