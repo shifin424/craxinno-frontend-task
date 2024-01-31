@@ -1,20 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import { IoMdInformationCircle } from "react-icons/io";
-import { validationSchema } from "../validations/createAccountValidation";
+import { personalInfovalidationSchema } from "../validations/personalInfoValiation";
 import InputField from "./InputField";
-import TextField from "@mui/material/TextField";
 import TextAreaField from "./TextAreaField";
+import CustomSelect from "./CustomSelect";
+import Button from "./Button";
 
 const PersonalInfo = () => {
+    const [title, setTitle] = useState("");
+
     const initialValues = {
-        email: "",
-        mobile: "",
-        password: "",
-        confirmPassword: "",
+        titles: "Mr",
+        name: "",
+        dateOfBirth: "",
+        address: "",
+        lived: "",
+        about: "",
     };
 
-    const handleSubmit = (values, { setSubmitting }) => {
+
+
+    const handleChange = (event) => {
+        setTitle(event.target.value);
+    };
+
+    const titleOptions = [
+        { value: 10, label: "Mr" },
+        { value: 20, label: "Mrs" },
+        { value: 30, label: "Miss" },
+        { value: 40, label: "Dr" },
+    ];
+
+    const handleSubmit = (values,{setSubmitting }) => {
+        console.log("inside the submit ")
         console.log(values);
         setSubmitting(false);
     };
@@ -26,7 +45,7 @@ const PersonalInfo = () => {
                     <div className=" flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-full font-bold">
                         1
                     </div>
-                    <div className=" flex items-center justify-center w-10 h-10 bg-gray-400 text-white rounded-full font-bold">
+                    <div className=" flex items-center justify-center w-10 h-10 bg-gray-300 text-white rounded-full font-bold">
                         2
                     </div>
                 </div>
@@ -36,23 +55,30 @@ const PersonalInfo = () => {
             </div>
 
             <div className="flex flex-col  p-5 md:p-3">
-                <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={validationSchema}>
+                <Formik
+                    initialValues={initialValues}
+                    onSubmit={handleSubmit}
+                    validationSchema={personalInfovalidationSchema}
+                >
                     <Form>
-                        <InputField name="email" label="Email address" type="text" />
-                        <InputField name="mobile" label="Mobile number" type="text" />
-                        <InputField name="mobile" label="Mobile number"   type="text" />
-                        <InputField name="mobile" label="Mobile number" type="text" />
-                        <InputField name="mobile" label="Mobile number" type="text" />
-                        <InputField name="mobile" label="Mobile number" type="text" />
-                        <TextAreaField
-                            name="yourTextAreaFieldName"
-                            label="Your TextArea Label"
-                            rows={4}
-                    
-                        />
+                        <div className="flex gap-4 justify-center items-center  w-[24rem] md:w-[28rem]">
+                            <CustomSelect
+                                label="Title"
+                                name="titles"
+                                value={title}
+                                onChange={handleChange}
+                                options={titleOptions}
+                            />
+                            <InputField name="name" label="Full name as your passport" type="text" />
+                        </div>
+
+                        <InputField name="dateOfBirth" type="date" />
+                        <InputField name="address" label="Current address" type="text" />
+                        <InputField name="lived" label="How long have you lived at this address?" type="text" />
+                        <TextAreaField name="about" label="Tell us a bit about yourself" rows={4} />
 
                         <div>
-                            <p className="mt-8 text-xs flex  justify-center  md:justify-start gap-x-0 text-black text-center text-opacity-60">
+                            <p className=" text-xs flex  justify-center  md:justify-start gap-x-0 text-black text-center text-opacity-60">
                                 <span>
                                     {" "}
                                     <IoMdInformationCircle className="w-10 h-5" />
@@ -62,9 +88,10 @@ const PersonalInfo = () => {
                         </div>
 
                         <div className="flex justify-center">
-                            <button type="submit" className="mt-3 px-4 py-2 w-full h-12 text-white rounded-lg bg-blue-500">
-                                Save and Continue
-                            </button>
+                            <Button
+                                text="Save and Continue"
+                                className="mt-3 px-4 py-2 w-full h-12 text-white rounded-lg bg-blue-500"
+                            />
                         </div>
                     </Form>
                 </Formik>
