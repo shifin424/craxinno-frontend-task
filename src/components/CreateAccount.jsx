@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import { IoMdInformationCircle } from "react-icons/io";
 import { validationSchema } from "../validations/createAccountValidation";
@@ -15,8 +15,25 @@ const CreateAccount = () => {
 
   const navigate = useNavigate()
   const dispatch = useDispatch();
-  const AuthData = useSelector((state) => state)
-  console.log(AuthData,"AuthData")
+
+  const { isLoading, isSuccess, isError, message, error } =
+    useSelector((state) => state.userData);
+
+  console.log(isLoading, isSuccess, isError, message, error)
+
+  useEffect(() => {
+    if (isError) {
+      errorMessage(error)
+    }
+    if (isSuccess) {
+      successMessage(message)
+      navigate("/personal-info");
+    }
+  }, [isError, message, error, navigate, dispatch, isSuccess]);
+
+
+  // const AuthData = useSelector((state) => state.userData)
+  // console.log(AuthData, "AuthData")
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -37,14 +54,9 @@ const CreateAccount = () => {
     setSubmitting(false);
     try {
       await dispatch(userData(values));
-      // const accessToken = response?.data?.accessToken;
-      // const refreshToken = response?.data?.refreshToken;
-      // saveTokens(accessToken, refreshToken);
-      // successMessage(response?.data?.message);
-      navigate("/personal-info");
     } catch (error) {
       console.log(error);
-      errorMessage(error?.response?.data?.message);
+      errorMessage("Internal server error");
     }
   };
 

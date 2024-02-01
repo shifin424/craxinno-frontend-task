@@ -9,9 +9,10 @@ import Button from "./Button";
 
 const PersonalInfo = () => {
     const [title, setTitle] = useState("");
+    console.log(title,"title");
 
     const initialValues = {
-        titles: "Mr",
+        titles: "",
         name: "",
         dateOfBirth: "",
         address: "",
@@ -33,7 +34,6 @@ const PersonalInfo = () => {
     ];
 
     const handleSubmit = (values,{setSubmitting }) => {
-        console.log("inside the submit ")
         console.log(values);
         setSubmitting(false);
     };

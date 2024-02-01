@@ -1,6 +1,5 @@
 import * as Yup from "yup";
 
-
 export const validationSchema = Yup.object().shape({
     email: Yup.string()
         .required("Email is required")
@@ -15,7 +14,8 @@ export const validationSchema = Yup.object().shape({
         .matches(/^(?=.*[A-Z])/, "Password must contain at least one uppercase letter")
         .matches(/^(?=.*\d)/, "Password must contain at least one numeric character"),
     confirmPassword: Yup.string()
-        .required("Password is required")
+        .required("Confirm Password is required")
+        .oneOf([Yup.ref('password'), null], 'Passwords must match')
         .min(8, "Password must be at least 8 characters")
         .matches(/^(?=.*[a-z])/, "Password must contain at least one lowercase letter")
         .matches(/^(?=.*[A-Z])/, "Password must contain at least one uppercase letter")

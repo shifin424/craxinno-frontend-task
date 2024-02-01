@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createAccount } from '../../services/userServices';
+import { saveTokens } from '../../utils/token';
 
 const initialState = {
     user: [],
@@ -10,16 +11,18 @@ const initialState = {
     error: ""
 }
 
-export const userData =  createAsyncThunk(
+export const userData = createAsyncThunk(
     "/create-account",
     async (data) => {
         try {
             const response = await createAccount(data);
-            console.log(response,"in thunk api")
+            console.log(response.data, "in thunk api")
+            const accessToken = response?.data?.accessToken;
+            const refreshToken = response?.data?.refreshToken;
+            saveTokens(accessToken, refreshToken);
             return response.data
         } catch (error) {
-            console.log(error)
-            throw error;
+            throw error.response.data.message;
         }
     }
 );
@@ -32,19 +35,20 @@ export const userSlice = createSlice({
         builder
             .addCase(userData.pending, (state) => {
                 state.isLoading = true;
+                state.isError = false;
+                state.error = '';
             })
             .addCase(userData.fulfilled, (state, action) => {
-                console.log(action,"Action data")
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.user = action.payload.data;
-                state.message = "User created successfully";
+                state.user = action.payload;
+                state.message = action?.payload?.message;
             })
             .addCase(userData.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.error = action.error.message;
-                state.message = "fail for creating a user ";
+                state.message = action.payload;
             })
     },
 });
