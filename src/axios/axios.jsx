@@ -2,7 +2,7 @@ import axios from "axios";
 import { clearTokens, getAccessToken, getRefreshToken, saveTokens } from "../utils/token";
 
 const instance = axios.create({
-    baseURL: import.meta.env.VITE_APP_SERVER_URL,
+    baseURL: 'https://craxinno.onrender.com/api/v1/',
     timeout: 5000,
     headers: {
         "Content-Type": "application/json",
