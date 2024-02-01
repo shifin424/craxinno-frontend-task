@@ -16,7 +16,6 @@ export const userData = createAsyncThunk(
     async (data) => {
         try {
             const response = await createAccount(data);
-            console.log(response.data, "in thunk api")
             const accessToken = response?.data?.accessToken;
             const refreshToken = response?.data?.refreshToken;
             saveTokens(accessToken, refreshToken);
@@ -26,6 +25,17 @@ export const userData = createAsyncThunk(
         }
     }
 );
+
+export const personalInfoSlice = createSlice({
+    name: 'user',
+    initialState,
+    reducers: {
+        storeUserData: (state, action) => {
+            state.user = action.payload;
+            state.isSuccess = true;
+        },
+    },
+});
 
 export const userSlice = createSlice({
     name: 'user',
@@ -52,3 +62,7 @@ export const userSlice = createSlice({
             })
     },
 });
+
+export const { storeUserData } = personalInfoSlice.actions; 
+
+export default personalInfoSlice.reducer;

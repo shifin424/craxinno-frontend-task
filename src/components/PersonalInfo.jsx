@@ -6,10 +6,15 @@ import InputField from "./InputField";
 import TextAreaField from "./TextAreaField";
 import CustomSelect from "./CustomSelect";
 import Button from "./Button";
+import { storeUserData } from "../app/slices/authSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { successMessage } from "../hooks/message";
 
 const PersonalInfo = () => {
     const [title, setTitle] = useState("");
-    console.log(title,"title");
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     const initialValues = {
         titles: "",
@@ -19,8 +24,6 @@ const PersonalInfo = () => {
         lived: "",
         about: "",
     };
-
-
 
     const handleChange = (event) => {
         setTitle(event.target.value);
@@ -33,8 +36,10 @@ const PersonalInfo = () => {
         { value: 40, label: "Dr" },
     ];
 
-    const handleSubmit = (values,{setSubmitting }) => {
-        console.log(values);
+    const handleSubmit = (values, { setSubmitting }) => {
+        dispatch(storeUserData(values));
+        navigate('/financial-info')
+        successMessage("Personal Info updated Successfully")
         setSubmitting(false);
     };
 
