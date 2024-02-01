@@ -13,41 +13,41 @@ const UserRoutes = () => {
             <Route
                 path="/"
                 element={
-                    <UserAuthorization>
+                    // <UserAuthorization>
                         <CreateAccountPage />
-                    </UserAuthorization>
+                    // </UserAuthorization>
                 }
             />
             <Route
                 path="/personal-info"
                 element={
-                    <UserAuthorization>
+                    // <UserAuthorization>
                         <PersonalInfoPage />
-                    </UserAuthorization>
+                    // </UserAuthorization>
                 }
             />
             <Route
                 path="/financial-info"
                 element={
-                    <UserAuthorization>
+                    // <UserAuthorization>
                         <FinancialInfoPage />
-                    </UserAuthorization>
+                    // </UserAuthorization>
                 }
             />
             <Route
                 path="/user/:id"
                 element={
-                    <UserAuthorization>
+                    // <UserAuthorization>
                         <SubmittedInfoPage />
-                    </UserAuthorization>
+                    // </UserAuthorization>
                 }
             />
             <Route
                 path="/success"
                 element={
-                    <UserAuthorization>
+                    // <UserAuthorization>
                         <SuccessPage />
-                    </UserAuthorization>
+                    // </UserAuthorization>
                 }
             />
 
