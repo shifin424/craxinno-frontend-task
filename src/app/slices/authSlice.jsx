@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { createAccount } from '../../services/userServices';
+import {  createAccountApi, saveAllInfoApi } from '../../services/userServices';
 import { saveTokens } from '../../utils/token';
 
 const initialState = {
@@ -15,10 +15,25 @@ export const userData = createAsyncThunk(
     "/create-account",
     async (data) => {
         try {
-            const response = await createAccount(data);
+            const response = await createAccountApi(data);
+            console.log(response,"response")
             const accessToken = response?.data?.accessToken;
             const refreshToken = response?.data?.refreshToken;
             saveTokens(accessToken, refreshToken);
+            return response.data
+        } catch (error) {
+            console.log(error)
+            throw error.response.data.message;
+        }
+    }
+);
+
+export const saveAllData = createAsyncThunk(
+    "/save-all-info",
+    async (data) => {
+        try {
+            const response = await saveAllInfoApi(data);
+           console.log(response)
             return response.data
         } catch (error) {
             throw error.response.data.message;
@@ -49,12 +64,30 @@ export const userSlice = createSlice({
                 state.error = '';
             })
             .addCase(userData.fulfilled, (state, action) => {
+                console.log(action,"in fulfiled")
                 state.isLoading = false;
                 state.isSuccess = true;
                 state.user = action.payload;
                 state.message = action?.payload?.message;
             })
             .addCase(userData.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.error.message;
+                state.message = action.payload;
+            })
+            .addCase(saveAllData.pending, (state) => {
+                state.isLoading = true;
+                state.isError = false;
+                state.error = '';
+            })
+            .addCase(saveAllData.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.user = action.payload;
+                state.message = action?.payload?.message;
+            })
+            .addCase(saveAllData.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.error = action.error.message;

@@ -4,7 +4,7 @@ import { personalInfoSlice } from '../slices/authSlice';
 
 const rootReducer = combineReducers({
     userData: userSlice.reducer,
-    userData:personalInfoSlice.reducer
+    saveData:personalInfoSlice.reducer
 });
 
 export const store = configureStore({

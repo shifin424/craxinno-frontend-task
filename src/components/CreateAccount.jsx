@@ -5,7 +5,6 @@ import { validationSchema } from "../validations/createAccountValidation";
 import InputField from "./InputField";
 import { userData } from "../app/slices/authSlice";
 import { useDispatch, useSelector } from 'react-redux'
-import { saveTokens } from "../utils/token";
 import { useNavigate } from 'react-router-dom'
 import { errorMessage, successMessage } from "../hooks/message";
 
@@ -19,7 +18,7 @@ const CreateAccount = () => {
   const { isLoading, isSuccess, isError, message, error } =
     useSelector((state) => state.userData);
 
-  console.log(isLoading, isSuccess, isError, message, error)
+    console.log(isLoading, isSuccess, isError, message, error)
 
   useEffect(() => {
     if (isError) {
@@ -29,11 +28,8 @@ const CreateAccount = () => {
       successMessage(message)
       navigate("/personal-info");
     }
-  }, [isError, message, error, navigate, dispatch, isSuccess]);
+  }, [isError, message, error, dispatch, isSuccess]);
 
-
-  // const AuthData = useSelector((state) => state.userData)
-  // console.log(AuthData, "AuthData")
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

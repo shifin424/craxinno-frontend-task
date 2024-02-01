@@ -12,7 +12,8 @@ import { useNavigate } from "react-router-dom";
 import { successMessage } from "../hooks/message";
 
 const PersonalInfo = () => {
-    const [title, setTitle] = useState("");
+    const [status, setStatus] = useState("");
+    
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
@@ -26,7 +27,7 @@ const PersonalInfo = () => {
     };
 
     const handleChange = (event) => {
-        setTitle(event.target.value);
+        setStatus(event.target.value);
     };
 
     const titleOptions = [
@@ -70,7 +71,7 @@ const PersonalInfo = () => {
                             <CustomSelect
                                 label="Title"
                                 name="titles"
-                                value={title}
+                                selectedValue={status}
                                 onChange={handleChange}
                                 options={titleOptions}
                             />

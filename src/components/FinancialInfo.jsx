@@ -4,11 +4,24 @@ import Button from "./Button";
 import CustomSelect from "./CustomSelect";
 import InputField from "./InputField";
 import { Form, Formik } from "formik";
+import { useDispatch ,useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { saveAllData } from "../app/slices/authSlice";
+
 
 
 
 const FinancialInfo = () => {
     const [title, setTitle] = useState("");
+
+    console.log(title,"title")
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
+
+    const personalInfoData = useSelector(state => state?.saveData?.user);
+    console.log(personalInfoData)
+
 
     const initialValues = {
         status: "",
@@ -18,7 +31,8 @@ const FinancialInfo = () => {
 
 
     const handleChange = (event) => {
-        setTitle(event.target.value);
+        const selectedValue = event.target.value;
+        setTitle(selectedValue);
     };
 
     const titleOptions = [
@@ -30,8 +44,11 @@ const FinancialInfo = () => {
     ];
 
     const handleSubmit = (values, { setSubmitting }) => {
-        console.log("inside the submit ")
-        console.log(values);
+        const allData = {
+            ...personalInfoData,
+            financialInfo: values,
+        };
+        dispatch(saveAllData(allData))
         setSubmitting(false);
     };
     return (
@@ -68,9 +85,9 @@ const FinancialInfo = () => {
                                 />
                             </div>
                             <div>
-                            <InputField name="additonal"  label="Additional savings/investments" type="text" />
+                                <InputField name="additonal" label="Additional savings/investments" type="text" />
                             </div>
-                           
+
                             <div className="flex mt-8 justify-center">
                                 <Button
                                     text="Save and Continue"
