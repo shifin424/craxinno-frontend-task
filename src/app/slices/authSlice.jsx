@@ -10,7 +10,7 @@ const initialState = {
     error: ""
 }
 
-export const userData = createAsyncThunk(
+export const userData =  createAsyncThunk(
     "/create-account",
     async (data) => {
         try {
@@ -18,32 +18,33 @@ export const userData = createAsyncThunk(
             console.log(response,"in thunk api")
             return response.data
         } catch (error) {
+            console.log(error)
             throw error;
         }
     }
 );
 
-export const userSliceSlice = createSlice({
+export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(AddBannerData.pending, (state) => {
+            .addCase(userData.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(AddBannerData.fulfilled, (state, action) => {
+            .addCase(userData.fulfilled, (state, action) => {
                 console.log(action,"Action data")
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.bannerData = [...state.bannerData, action.payload];
-                state.message = "Banner uploaded successfully";
+                state.user = action.payload.data;
+                state.message = "User created successfully";
             })
-            .addCase(AddBannerData.rejected, (state, action) => {
+            .addCase(userData.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.error = action.error.message;
-                state.message = "Banner upload failed";
+                state.message = "fail for creating a user ";
             })
     },
 });

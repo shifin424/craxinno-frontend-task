@@ -3,10 +3,20 @@ import { Formik, Form } from "formik";
 import { IoMdInformationCircle } from "react-icons/io";
 import { validationSchema } from "../validations/createAccountValidation";
 import InputField from "./InputField";
+import { userData } from "../app/slices/authSlice";
+import { useDispatch, useSelector } from 'react-redux'
+import { saveTokens } from "../utils/token";
+import { useNavigate } from 'react-router-dom'
+import { errorMessage, successMessage } from "../hooks/message";
 
 const CreateAccount = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const AuthData = useSelector((state) => state)
+  console.log(AuthData,"AuthData")
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -23,9 +33,19 @@ const CreateAccount = () => {
     confirmPassword: "",
   };
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    console.log(values);
+  const handleSubmit = async (values, { setSubmitting }) => {
     setSubmitting(false);
+    try {
+      await dispatch(userData(values));
+      // const accessToken = response?.data?.accessToken;
+      // const refreshToken = response?.data?.refreshToken;
+      // saveTokens(accessToken, refreshToken);
+      // successMessage(response?.data?.message);
+      navigate("/personal-info");
+    } catch (error) {
+      console.log(error);
+      errorMessage(error?.response?.data?.message);
+    }
   };
 
   return (
