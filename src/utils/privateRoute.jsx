@@ -17,7 +17,7 @@ function UserAuthorization({ children }) {
     if (!getAccessToken()) {
         navigate('/');
     }
-    
+
     return <div>{children}</div>;
 }
 

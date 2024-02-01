@@ -13,7 +13,7 @@ import { successMessage } from "../hooks/message";
 
 const PersonalInfo = () => {
     const [status, setStatus] = useState("");
-    
+
     const dispatch = useDispatch();
     const navigate = useNavigate()
 

@@ -4,9 +4,10 @@ import Button from "./Button";
 import CustomSelect from "./CustomSelect";
 import InputField from "./InputField";
 import { Form, Formik } from "formik";
-import { useDispatch ,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { saveAllData } from "../app/slices/authSlice";
+import { successMessage } from "../hooks/message";
 
 
 
@@ -14,14 +15,10 @@ import { saveAllData } from "../app/slices/authSlice";
 const FinancialInfo = () => {
     const [title, setTitle] = useState("");
 
-    console.log(title,"title")
-
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
     const personalInfoData = useSelector(state => state?.saveData?.user);
-    console.log(personalInfoData)
-
 
     const initialValues = {
         status: "",
@@ -49,6 +46,8 @@ const FinancialInfo = () => {
             financialInfo: values,
         };
         dispatch(saveAllData(allData))
+        successMessage("Data Updated Successfully")
+        navigate('/success')
         setSubmitting(false);
     };
     return (

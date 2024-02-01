@@ -18,8 +18,6 @@ const CreateAccount = () => {
   const { isLoading, isSuccess, isError, message, error } =
     useSelector((state) => state.userData);
 
-    console.log(isLoading, isSuccess, isError, message, error)
-
   useEffect(() => {
     if (isError) {
       errorMessage(error)

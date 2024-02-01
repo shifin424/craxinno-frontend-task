@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {  createAccountApi, saveAllInfoApi } from '../../services/userServices';
+import { createAccountApi, getSavedData, saveAllInfoApi } from '../../services/userServices';
 import { saveTokens } from '../../utils/token';
 
 const initialState = {
-    user: [],
+    Details:[],
+    user:[],
     isLoading: false,
     isSuccess: false,
     isError: false,
@@ -16,7 +17,7 @@ export const userData = createAsyncThunk(
     async (data) => {
         try {
             const response = await createAccountApi(data);
-            console.log(response,"response")
+            console.log(response, "response")
             const accessToken = response?.data?.accessToken;
             const refreshToken = response?.data?.refreshToken;
             saveTokens(accessToken, refreshToken);
@@ -33,13 +34,29 @@ export const saveAllData = createAsyncThunk(
     async (data) => {
         try {
             const response = await saveAllInfoApi(data);
-           console.log(response)
+            console.log(response)
             return response.data
         } catch (error) {
             throw error.response.data.message;
         }
     }
 );
+
+
+export const getSubmittedData = createAsyncThunk(
+    "/get-submitted-data/:id",
+    async (id) => {
+        try {
+            const response = await getSavedData(id);
+            console.log(response)
+            return response.data
+        } catch (error) {
+            throw error.response.data.message;
+        }
+    }
+);
+
+
 
 export const personalInfoSlice = createSlice({
     name: 'user',
@@ -64,7 +81,7 @@ export const userSlice = createSlice({
                 state.error = '';
             })
             .addCase(userData.fulfilled, (state, action) => {
-                console.log(action,"in fulfiled")
+                console.log(action, "in fulfiled")
                 state.isLoading = false;
                 state.isSuccess = true;
                 state.user = action.payload;
@@ -93,9 +110,26 @@ export const userSlice = createSlice({
                 state.error = action.error.message;
                 state.message = action.payload;
             })
+            .addCase(getSubmittedData.pending, (state) => {
+                state.isLoading = true;
+                state.isError = false;
+                state.error = '';
+            })
+            .addCase(getSubmittedData.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.Details = action.payload;
+                state.message = action?.payload?.message;
+            })
+            .addCase(getSubmittedData.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.error.message;
+                state.message = action.payload;
+            })
     },
 });
 
-export const { storeUserData } = personalInfoSlice.actions; 
+export const { storeUserData } = personalInfoSlice.actions;
 
 export default personalInfoSlice.reducer;

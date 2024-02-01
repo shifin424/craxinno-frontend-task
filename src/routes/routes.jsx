@@ -4,6 +4,8 @@ import CreateAccountPage from "../pages/CreateAccountPage";
 import PersonalInfoPage from "../pages/PersonalInfoPage";
 import FinancialInfoPage from "../pages/FinancialInfioPage";
 import UserAuthorization from "../utils/privateRoute";
+import SubmittedInfoPage from "../pages/SubmittedInfoPage";
+import SuccessPage from "../pages/SuccessPage";
 
 const UserRoutes = () => {
     return (
@@ -32,6 +34,23 @@ const UserRoutes = () => {
                     </UserAuthorization>
                 }
             />
+            <Route
+                path="/user/:id"
+                element={
+                    <UserAuthorization>
+                        <SubmittedInfoPage />
+                    </UserAuthorization>
+                }
+            />
+            <Route
+                path="/success"
+                element={
+                    <UserAuthorization>
+                        <SuccessPage />
+                    </UserAuthorization>
+                }
+            />
+
         </Routes>
     );
 };
